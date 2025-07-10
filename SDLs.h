@@ -3,8 +3,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#define WIDTH  320
-#define HEIGHT 200
+#define WIDTH  800
+#define HEIGHT 600
 Uint8 screen[WIDTH * HEIGHT];
 #define FONTDATAMAX 2048
 #define PI 3.1415927

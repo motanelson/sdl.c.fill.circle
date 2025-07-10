@@ -3,8 +3,6 @@
 
 #include <stdio.h>
 
-#define WIDTH  320
-#define HEIGHT 200
 
 int main(int argc, char *argv[]) {
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
@@ -41,7 +39,7 @@ int main(int argc, char *argv[]) {
     
     // Update the texture with the pixel data
     clears(255,255,0);
-    ball(50,50,10,0,0,0);
+    ball(400,300,100,0,0,0);
     SDL_UpdateTexture(texture, NULL, screen, WIDTH);
 
     // Main loop
