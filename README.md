@@ -1,2 +1,2 @@
 # sdl.c.fill.circle
-sdl 2 draw ball on screen 13
+sdl 2 draw ball on 256 color
