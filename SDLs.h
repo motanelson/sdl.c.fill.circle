@@ -5136,7 +5136,8 @@ unsigned char font8x8[FONTDATAMAX] = {
 //----------------------------------------------
 
 Uint8 MapRGBA(int b,int g,int r,int a){
-         return ((b/85)<<6)|((g/85)<<3)|((r/85));
+        return ((r/85)<<6)|((g/85)<<3)|((b/85));
+        
 }
 void vline( int   x, int   y, int   y2, int   b, int   g, int   r){
 	 int   xx=x;
@@ -5208,7 +5209,7 @@ void setPixel (int   x, int   y, int   b, int   g, int   r){
 	}
 
 }
-void lineR  (int   x, int   y, int   x2, int   y2,char bc,char g,char r){
+void lineR  (int   x, int   y, int   x2, int   y2,int bc,int g,int r){
 long l1=0,l2=0,l3=0,l4=0,l5=0;
 	 int   i4=0;
 	 int   xx=x;
@@ -5274,7 +5275,7 @@ long l1=0,l2=0,l3=0,l4=0,l5=0;
 	}
 }
 
-void lineL (int   x, int   y, int   x2, int   y2,char bc,char g,char r){
+void lineL (int   x, int   y, int   x2, int   y2,int bc,int g,int r){
 	long l1=0,l2=0,l3=0,l4=0,l5=0;
 	 int   i4=0;
 	 int   xx=x;
@@ -5340,7 +5341,7 @@ void lineL (int   x, int   y, int   x2, int   y2,char bc,char g,char r){
 	} 
 }
 
-void line (int   x, int   y, int   x2, int   y2,char b,char g,char r){
+void line (int   x, int   y, int   x2, int   y2,int b,int g,int r){
 	 int   i=-1;
 	if(x>x2 && y<y2)i=5;
 	if(x>x2 && y>y2)i=4;
@@ -5360,7 +5361,7 @@ void line (int   x, int   y, int   x2, int   y2,char b,char g,char r){
 	if (i==6)vline(x,y2,y,b,g,r);
 
 }
-void circle (int   xx, int   yy , int   rr,char bcc,char gcc,char rcc){
+void circle (int   xx, int   yy , int   rr,int bcc,int gcc,int rcc){
 	long double rrr=(long double)rr,dx=(long double)xx,dy=(long double)yy,ddddd=0.0,d1=0.0,dd1=0,d=0.0,dd=0.0,ddd=0.0,pi=(long double)PI;
 	long double xyr=rrr*2;
 	 int   x=1,y=1,bc=0,c=7,x1=0,y1=0;
@@ -5382,7 +5383,7 @@ void circle (int   xx, int   yy , int   rr,char bcc,char gcc,char rcc){
 	}
 
 }
-void ball (int   xx, int   yy , int   rr,char bcc,char gcc,char rcc){
+void ball (int   xx, int   yy , int   rr,int bcc,int gcc,int rcc){
 	long double rrr=(long double)rr,dx=(long double)xx,dy=(long double)yy,ddddd=0.0,d1=0.0,dd1=0,d=0.0,dd=0.0,ddd=0.0,pi=(long double)PI;
 	 int   x=1,y=1,bc=0,c=7,x1=0,y1=0;
 	long double rrr1=rrr*2;
@@ -5404,7 +5405,7 @@ void ball (int   xx, int   yy , int   rr,char bcc,char gcc,char rcc){
 	}
 
 }
-void gputc (int   x, int   y,char b,char g,char r,char c){
+void gputc (int   x, int   y,int b,int g,int r,char c){
 	char bits;
 	char bit;
 	 int   scrolls;
@@ -5430,7 +5431,7 @@ void gputc (int   x, int   y,char b,char g,char r,char c){
 	}
 
 } 
-void gputs (int   x, int   y,char b,char g,char r,char *c){
+void gputs (int   x, int   y,int b,int g,int r,char *c){
 	 int   ii=0;
 	 int   xx=x;
 	 int   yy=y;

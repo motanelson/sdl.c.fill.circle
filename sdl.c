@@ -38,7 +38,7 @@ int main(int argc, char *argv[]) {
     // Fill the texture with 256 colors
     
     // Update the texture with the pixel data
-    clears(255,255,0);
+    clears(0,255,255);
     ball(400,300,100,0,0,0);
     SDL_UpdateTexture(texture, NULL, screen, WIDTH);
 
