@@ -1,11 +1,9 @@
-#include <SDL2/SDL.h>
+#include <SDL/SDL.h>
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#define WIDTH  800
-#define HEIGHT 600
-Uint8 screen[WIDTH * HEIGHT];
+
 #define FONTDATAMAX 2048
 #define PI 3.1415927
 unsigned char font8x8[FONTDATAMAX] = {
@@ -5134,64 +5132,59 @@ unsigned char font8x8[FONTDATAMAX] = {
 
 };
 //----------------------------------------------
-
-Uint8 MapRGBA(int b,int g,int r,int a){
-        return ((r/85)<<6)|((g/85)<<3)|((b/85));
-        
-}
-void vline( int   x, int   y, int   y2, int   b, int   g, int   r){
-	 int   xx=x;
-	 int   yy=y;
-	 int   count1=1;
-	 int   nexts1=1;
-	Uint8 *pixels=(Uint8*)screen;
+void vline(	SDL_Surface *surfaces,int x,int y,int y2,int b,int g,int r){
+	int xx=x;
+	int yy=y;
+	int count1=1;
+	int nexts1=1;
+	Uint32 *pixels=(Uint32*) surfaces->pixels;
 	if(xx<0)xx=0;
 	if(yy<0)yy=0;
-	if(xx>= WIDTH )xx= WIDTH -1;
-	if(yy>=HEIGHT )yy=HEIGHT -1;
+	if(xx>=surfaces->w)xx=surfaces->w-1;
+	if(yy>=surfaces->h)yy=surfaces->h-1;
 	count1=y2-yy;
-	if (count1+yy>=HEIGHT )count1=HEIGHT -1-yy;
+	if (count1+yy>=surfaces->h)count1=surfaces->h-1-yy;
 	for(nexts1=yy;nexts1<count1+yy;nexts1++){
-		pixels[nexts1* WIDTH +xx]=MapRGBA( b, g,r, 255);
+		pixels[nexts1*surfaces->w+xx]=SDL_MapRGBA(surfaces->format, b, g,r, 255);
 	}
 
 }
-void hline( int   x, int   y, int   x2, int   b, int   g, int   r){
-	 int   xx=x;
-	 int   yy=y;
-	 int   count1=1;
-	 int   nexts1=1;
-	Uint8 *pixels=(Uint8*)screen;
+void hline(	SDL_Surface *surfaces,int x,int y,int x2,int b,int g,int r){
+	int xx=x;
+	int yy=y;
+	int count1=1;
+	int nexts1=1;
+	Uint32 *pixels=(Uint32*) surfaces->pixels;
 	if(xx<0)xx=0;
 	if(yy<0)yy=0;
-	if(xx>= WIDTH )xx= WIDTH -1;
-	if(yy>=HEIGHT )yy=HEIGHT -1;
+	if(xx>=surfaces->w)xx=surfaces->w-1;
+	if(yy>=surfaces->h)yy=surfaces->h-1;
 	count1=x2-xx;
-	if (count1+xx>= WIDTH )count1= WIDTH -1-xx;
+	if (count1+xx>=surfaces->w)count1=surfaces->w-1-xx;
 	for(nexts1=xx;nexts1<count1+xx;nexts1++){
-		pixels[yy* WIDTH +nexts1]=MapRGBA( b, g,r, 255);
+		pixels[yy*surfaces->w+nexts1]=SDL_MapRGBA(surfaces->format, b, g,r, 255);
 	}
 
 }
-void box (int   x, int   y, int   x2, int   y2, int   b, int   g, int   r){
-	 int   xx=x;
-	 int   yy=y;
-	 int   count1=1;
-	 int   count2=1;
-	 int   nexts1=1;
-	 int   nexts2=1;
-	Uint8 *pixels=(Uint8*)screen;
+void box(SDL_Surface *surfaces,int x,int y,int x2,int y2,int b,int g,int r){
+	int xx=x;
+	int yy=y;
+	int count1=1;
+	int count2=1;
+	int nexts1=1;
+	int nexts2=1;
+	Uint32 *pixels=(Uint32*)  surfaces->pixels;
 	if(xx<0)xx=0;
 	if(yy<0)yy=0;
-	if(xx>= WIDTH )xx= WIDTH -1;
-	if(yy>=HEIGHT )yy=HEIGHT -1;
+	if(xx>=surfaces->w)xx=surfaces->w-1;
+	if(yy>=surfaces->h)yy=surfaces->h-1;
 	count1=x2;
 	count2=y2;
-	if (count1+xx>= WIDTH )count1= WIDTH -1-xx;
-	if (count2+yy>=HEIGHT )count2=HEIGHT -1-yy;
+	if (count1+xx>=surfaces->w)count1=surfaces->w-1-xx;
+	if (count2+yy>=surfaces->h)count2=surfaces->h-1-yy;
 	for(nexts2=yy;nexts2<count2+yy;nexts2++){
 		for(nexts1=xx;nexts1<count1+xx;nexts1++){
-			 pixels[nexts2* WIDTH +nexts1]=MapRGBA( b, g,r, 255);
+			 pixels[nexts2*surfaces->w+nexts1]=SDL_MapRGBA(surfaces->format, b, g,r, 255);
                         
 
 		}
@@ -5199,25 +5192,25 @@ void box (int   x, int   y, int   x2, int   y2, int   b, int   g, int   r){
 	}
 
 }
-void clears (int   b, int   g, int   r){
-	box(0,0, WIDTH -1,HEIGHT -1,b,g,r);
+void clears(SDL_Surface *surfaces,int b,int g,int r){
+	box(surfaces,0,0,surfaces->w-1,surfaces->h-1,b,g,r);
 }
-void setPixel (int   x, int   y, int   b, int   g, int   r){
-	Uint8 *pixels=(Uint8*) screen;
-	if(x< WIDTH -1 && y<HEIGHT -1 && y>-1 && x>-1){
-		pixels[y* WIDTH +x]=MapRGBA( b, g,r, 255);
+void setPixel(SDL_Surface *surfaces,int x,int y,int b,int g,int r){
+	Uint32 *pixels=(Uint32*) surfaces->pixels;
+	if(x<surfaces->w-1 && y<surfaces->h-1 && y>-1 && x>-1){
+		pixels[y*surfaces->w+x]=SDL_MapRGBA(surfaces->format, b, g,r, 255);
 	}
 
 }
-void lineR  (int   x, int   y, int   x2, int   y2,int bc,int g,int r){
+void lineR(SDL_Surface *surfaces, int x,int y,int x2,int y2,char bc,char g,char r){
 long l1=0,l2=0,l3=0,l4=0,l5=0;
-	 int   i4=0;
-	 int   xx=x;
-	 int   yy=y;
-	 int   xxx=x2;
-	 int   yyy=y2;
-	 int   c=0;
-	 int   c2=0;
+	int i4=0;
+	int xx=x;
+	int yy=y;
+	int xxx=x2;
+	int yyy=y2;
+	int c=0;
+	int c2=0;
 	if (xx>xxx){
 		i4=xxx;
 		xxx=xx;
@@ -5229,14 +5222,14 @@ long l1=0,l2=0,l3=0,l4=0,l5=0;
 		yy=i4;
 	}
 
-	 int   i1=xxx-xx;
-	 int   i2=yyy-yy;
-	 int   i3;
-	 int   i5;
-	 int   i6;
-	 int   i8;
-	 int   b=0;
-	 int   ty=0;
+	int i1=xxx-xx;
+	int i2=yyy-yy;
+	int i3;
+	int i5;
+	int i6;
+	int i8;
+	int b=0;
+	int ty=0;
 	if (i1>i2){
 		l1=(long)i1;
 		l2=(long)i2;
@@ -5250,8 +5243,8 @@ long l1=0,l2=0,l3=0,l4=0,l5=0;
 		c2=0;
 		for(i5=0;i5<i1+1;i5++){
 			l5=l3/10000;
-			i3=( int  )l5;
-			setPixel(xx+i5,y+(i3),bc,g,r);
+			i3=(int)l5;
+			setPixel(surfaces,xx+i5,y+(i3),bc,g,r);
 			l3=l3+l4;
 		}
 	}else{
@@ -5267,23 +5260,23 @@ long l1=0,l2=0,l3=0,l4=0,l5=0;
 		c2=0;
 		for(i5=0;i5<i2+1;i5++){
 		l5=l3/10000;
-		i3=( int  )l5;
-		setPixel(xx+i3,y+(i5),bc,g,r);
+		i3=(int)l5;
+		setPixel(surfaces,xx+i3,y+(i5),bc,g,r);
 		l3=l3+l4;
 	
 		} 
 	}
 }
 
-void lineL (int   x, int   y, int   x2, int   y2,int bc,int g,int r){
+void lineL(SDL_Surface *surfaces,int x,int y,int x2,int y2,char bc,char g,char r){
 	long l1=0,l2=0,l3=0,l4=0,l5=0;
-	 int   i4=0;
-	 int   xx=x;
-	 int   yy=y;
-	 int   xxx=x2;
-	 int   yyy=y2;
-	 int   c=0;
-	 int   c2=0;
+	int i4=0;
+	int xx=x;
+	int yy=y;
+	int xxx=x2;
+	int yyy=y2;
+	int c=0;
+	int c2=0;
 	if (xx>xxx){
 		i4=xxx;
 		xxx=xx;
@@ -5295,14 +5288,14 @@ void lineL (int   x, int   y, int   x2, int   y2,int bc,int g,int r){
 		yy=i4;
 	}
 
-	 int   i1=xxx-xx;
-	 int   i2=yy-yyy;
-	 int   i3;
-	 int   i5;
-	 int   i6;
-	 int   i8;
-	 int   b=0;
-	 int   ty=0;
+	int i1=xxx-xx;
+	int i2=yy-yyy;
+	int i3;
+	int i5;
+	int i6;
+	int i8;
+	int b=0;
+	int ty=0;
 	if (i1>i2){
 		l1=(long)i1;
 		l2=(long)i2;
@@ -5317,8 +5310,8 @@ void lineL (int   x, int   y, int   x2, int   y2,int bc,int g,int r){
 		c2=0;
 		for(i5=0;i5<i1+1;i5++){
 			l5=l3/10000;
-			i3=( int  )l5;
-			setPixel(xx+i5,y-(i3),bc,g,r);
+			i3=(int)l5;
+			setPixel(surfaces,xx+i5,y-(i3),bc,g,r);
 			l3=l3+l4;
 		}
 	}else{
@@ -5334,15 +5327,15 @@ void lineL (int   x, int   y, int   x2, int   y2,int bc,int g,int r){
 		c2=0;
 		for(i5=0;i5<i2+1;i5++){
 			l5=l3/10000;
-			i3=( int  )l5;
-			setPixel(xx+i3,yy-i5,bc,g,r);
+			i3=(int)l5;
+			setPixel(surfaces,xx+i3,yy-i5,bc,g,r);
 			l3=l3+l4;
 		}
 	} 
 }
 
-void line (int   x, int   y, int   x2, int   y2,int b,int g,int r){
-	 int   i=-1;
+void line(SDL_Surface *surfaces,int x,int y,int x2,int y2,char b,char g,char r){
+	int i=-1;
 	if(x>x2 && y<y2)i=5;
 	if(x>x2 && y>y2)i=4;
 	if(x<x2 && y<y2)i=3;
@@ -5351,20 +5344,20 @@ void line (int   x, int   y, int   x2, int   y2,int b,int g,int r){
 	if(x==x2 && y2>y)i=1;
 	if(y==y2 && x>x2)i=7;
 	if(x==x2 && y>y2)i=6;
-	if (i==0)hline(x,y,x2,b,g,r);
-	if (i==1)vline(x,y,y2,b,g,r);
-	if (i==2)lineL(x,y,x2,y2,b,g,r);
-	if (i==3)lineR(x,y,x2,y2,b,g,r);
-	if (i==4)lineR(x2,y2,x,y,b,g,r);
-	if (i==5)lineL(x2,y2,x,y,b,g,r);
-	if (i==7)hline(x2,y,x,b,g,r);
-	if (i==6)vline(x,y2,y,b,g,r);
+	if (i==0)hline(surfaces,x,y,x2,b,g,r);
+	if (i==1)vline(surfaces,x,y,y2,b,g,r);
+	if (i==2)lineL(surfaces,x,y,x2,y2,b,g,r);
+	if (i==3)lineR(surfaces,x,y,x2,y2,b,g,r);
+	if (i==4)lineR(surfaces,x2,y2,x,y,b,g,r);
+	if (i==5)lineL(surfaces,x2,y2,x,y,b,g,r);
+	if (i==7)hline(surfaces,x2,y,x,b,g,r);
+	if (i==6)vline(surfaces,x,y2,y,b,g,r);
 
 }
-void circle (int   xx, int   yy , int   rr,int bcc,int gcc,int rcc){
+void circle(SDL_Surface *surfaces,int xx,int yy ,int rr,char bcc,char gcc,char rcc){
 	long double rrr=(long double)rr,dx=(long double)xx,dy=(long double)yy,ddddd=0.0,d1=0.0,dd1=0,d=0.0,dd=0.0,ddd=0.0,pi=(long double)PI;
 	long double xyr=rrr*2;
-	 int   x=1,y=1,bc=0,c=7,x1=0,y1=0;
+	int x=1,y=1,bc=0,c=7,x1=0,y1=0;
 	long double rrr1=rrr*2;
 	long double rrr2=xyr/2;
 	for (ddd=0.0;ddd<xyr+1.0;ddd=ddd+1.0){
@@ -5374,18 +5367,18 @@ void circle (int   xx, int   yy , int   rr,int bcc,int gcc,int rcc){
 		if (ddddd>xyr + 1.0)ddddd=0;
 		dd1=dy-rrr1*(cos)(ddddd/rrr2*pi);
 		d1=dx+rrr1*(sin)(ddddd/rrr2*pi);
-		bc=( int  )ddd;
-		x=( int  )d;
-		y=( int  )dd;
-		x1=( int  )d1;
-		y1=( int  )dd1;
-		line(x,y,x1,y1,bcc,gcc,rcc);
+		bc=(int)ddd;
+		x=(int)d;
+		y=(int)dd;
+		x1=(int)d1;
+		y1=(int)dd1;
+		line(surfaces,x,y,x1,y1,bcc,gcc,rcc);
 	}
 
 }
-void ball (int   xx, int   yy , int   rr,int bcc,int gcc,int rcc){
+void ball(SDL_Surface *surfaces,int xx,int yy ,int rr,char bcc,char gcc,char rcc){
 	long double rrr=(long double)rr,dx=(long double)xx,dy=(long double)yy,ddddd=0.0,d1=0.0,dd1=0,d=0.0,dd=0.0,ddd=0.0,pi=(long double)PI;
-	 int   x=1,y=1,bc=0,c=7,x1=0,y1=0;
+	int x=1,y=1,bc=0,c=7,x1=0,y1=0;
 	long double rrr1=rrr*2;
 	long double xyr=rrr1*pi*2;
 	long double rrr2=xyr/2;
@@ -5396,31 +5389,31 @@ void ball (int   xx, int   yy , int   rr,int bcc,int gcc,int rcc){
 		if (ddddd>xyr + 1.0)ddddd=0;
 		dd1=dy-rrr1*(cos)(ddddd/rrr2*pi);
 		d1=dx+rrr1*(sin)(ddddd/rrr2*pi);
-		bc=( int  )ddd;
-		x=( int  )d;
-		y=( int  )dd;
-		x1=( int  )d1;
-		y1=( int  )dd1;
-		hline(x1,y,x,bcc,gcc,rcc);
+		bc=(int)ddd;
+		x=(int)d;
+		y=(int)dd;
+		x1=(int)d1;
+		y1=(int)dd1;
+		hline(surfaces,x1,y,x,bcc,gcc,rcc);
 	}
 
 }
-void gputc (int   x, int   y,int b,int g,int r,char c){
+void gputc(SDL_Surface *surfaces,int x,int y,char b,char g,char r,char c){
 	char bits;
 	char bit;
-	 int   scrolls;
-	 int   iii=0;
-	 int   ii=0;
-	 int   xx=x;
-	 int   yy=y;
-	 int   aa=0;
+	int scrolls;
+	int iii=0;
+	int ii=0;
+	int xx=x;
+	int yy=y;
+	int aa=0;
 	aa=c*8;
 	for (ii=0;ii<8;ii++){
 		scrolls=128;
 		bits=font8x8[aa];
 		for (iii=0;iii<8;iii++){
 			if ((bits & scrolls)!=0){
-				setPixel(xx,yy,b,g,r);
+				setPixel(surfaces,xx,yy,b,g,r);
 			}
 			xx++;
 			scrolls=scrolls/2;
@@ -5431,244 +5424,25 @@ void gputc (int   x, int   y,int b,int g,int r,char c){
 	}
 
 } 
-void gputs (int   x, int   y,int b,int g,int r,char *c){
-	 int   ii=0;
-	 int   xx=x;
-	 int   yy=y;
+void gputs(SDL_Surface *surfaces,int x,int y,char b,char g,char r,char *c){
+	int ii=0;
+	int xx=x;
+	int yy=y;
 	while(c[ii]!=0){
-		gputc(xx,yy,b,g,r,c[ii]);
+		gputc(surfaces,xx,yy,b,g,r,c[ii]);
 		xx=xx+8;
 		ii++;
 	}
 }
-void gputcx2 (int   x, int   y,int b,int g,int r,char c){
-	char bits;
-	char bit;
-	 int   scrolls;
-	 int   iii=0;
-	 int   ii=0;
-	 int   xx=x;
-	 int   yy=y;
-	 int   aa=0;
-	aa=c*8;
-	for (ii=0;ii<8;ii++){
-		scrolls=128;
-		bits=font8x8[aa];
-		for (iii=0;iii<8;iii++){
-			if ((bits & scrolls)!=0){
-				box(xx,yy,2,2,b,g,r);
-			}
-			xx=xx+2;
-			scrolls=scrolls/2;
-		}
-		xx=x;
-		aa++;
-		yy=yy+2;
-	}
-
-} 
-void gputsx2 (int   x, int   y,int b,int g,int r,char *c){
-	 int   ii=0;
-	 int   xx=x;
-	 int   yy=y;
-	while(c[ii]!=0){
-		gputcx2(xx,yy,b,g,r,c[ii]);
-		xx=xx+16;
-		ii++;
-	}
-}
-void gputcx3 (int   x, int   y,int b,int g,int r,char c){
-	char bits;
-	char bit;
-	 int   scrolls;
-	 int   iii=0;
-	 int   ii=0;
-	 int   xx=x;
-	 int   yy=y;
-	 int   aa=0;
-	aa=c*8;
-	for (ii=0;ii<8;ii++){
-		scrolls=128;
-		bits=font8x8[aa];
-		for (iii=0;iii<8;iii++){
-			if ((bits & scrolls)!=0){
-				box(xx,yy,3,3,b,g,r);
-			}
-			xx=xx+3;
-			scrolls=scrolls/2;
-		}
-		xx=x;
-		aa++;
-		yy=yy+3;
-	}
-
-} 
-void gputsx3 (int   x, int   y,int b,int g,int r,char *c){
-	 int   ii=0;
-	 int   xx=x;
-	 int   yy=y;
-	while(c[ii]!=0){
-		gputcx3(xx,yy,b,g,r,c[ii]);
-		xx=xx+24;
-		ii++;
-	}
-}
-void gputcx4 (int   x, int   y,int b,int g,int r,char c){
-	char bits;
-	char bit;
-	 int   scrolls;
-	 int   iii=0;
-	 int   ii=0;
-	 int   xx=x;
-	 int   yy=y;
-	 int   aa=0;
-	aa=c*8;
-	for (ii=0;ii<8;ii++){
-		scrolls=128;
-		bits=font8x8[aa];
-		for (iii=0;iii<8;iii++){
-			if ((bits & scrolls)!=0){
-				box(xx,yy,4,4,b,g,r);
-			}
-			xx=xx+4;
-			scrolls=scrolls/2;
-		}
-		xx=x;
-		aa++;
-		yy=yy+4;
-	}
-
-} 
-void gputsx4 (int   x, int   y,int b,int g,int r,char *c){
-	 int   ii=0;
-	 int   xx=x;
-	 int   yy=y;
-	while(c[ii]!=0){
-		gputcx4(xx,yy,b,g,r,c[ii]);
-		xx=xx+32;
-		ii++;
-	}
-}
-void gputcx4p (int   x, int   y,int b,int g,int r,char c){
-	char bits;
-	char bit;
-	 int   scrolls;
-	 int   iii=0;
-	 int   ii=0;
-	 int   xx=x;
-	 int   yy=y;
-	 int   aa=0;
-	aa=c*8;
-	for (ii=0;ii<8;ii++){
-		scrolls=128;
-		bits=font8x8[aa];
-		for (iii=0;iii<8;iii++){
-			if ((bits & scrolls)!=0){
-				box(xx,yy,3,3,b,g,r);
-			}
-			xx=xx+4;
-			scrolls=scrolls/2;
-		}
-		xx=x;
-		aa++;
-		yy=yy+4;
-	}
-
-} 
-void gputsx4p (int   x, int   y,int b,int g,int r,char *c){
-	 int   ii=0;
-	 int   xx=x;
-	 int   yy=y;
-	while(c[ii]!=0){
-		gputcx4p(xx,yy,b,g,r,c[ii]);
-		xx=xx+32;
-		ii++;
-	}
-}
-void gputcx4l (int   x, int   y,int b,int g,int r,char c){
-	char bits;
-	char bit;
-	 int   scrolls;
-	 int   iii=0;
-	 int   ii=0;
-	 int   xx=x;
-	 int   yy=y;
-	 int   aa=0;
-	aa=c*8;
-	for (ii=0;ii<8;ii++){
-		scrolls=128;
-		bits=font8x8[aa];
-		for (iii=0;iii<8;iii++){
-			if ((bits & scrolls)!=0){
-				box(xx,yy,4,2,b,g,r);
-			}
-			xx=xx+4;
-			scrolls=scrolls/2;
-		}
-		xx=x;
-		aa++;
-		yy=yy+4;
-	}
-
-} 
-void gputsx4l (int   x, int   y,int b,int g,int r,char *c){
-	 int   ii=0;
-	 int   xx=x;
-	 int   yy=y;
-	while(c[ii]!=0){
-		gputcx4l(xx,yy,b,g,r,c[ii]);
-		xx=xx+32;
-		ii++;
-	}
-}
-
-void gputcx4c (int   x, int   y,int b,int g,int r,char c){
-	char bits;
-	char bit;
-	 int   scrolls;
-	 int   iii=0;
-	 int   ii=0;
-	 int   xx=x;
-	 int   yy=y;
-	 int   aa=0;
-	aa=c*8;
-	for (ii=0;ii<8;ii++){
-		scrolls=128;
-		bits=font8x8[aa];
-		for (iii=0;iii<8;iii++){
-			if ((bits & scrolls)!=0){
-				ball(xx,yy,2,b,g,r);
-			}
-			xx=xx+4;
-			scrolls=scrolls/2;
-		}
-		xx=x;
-		aa++;
-		yy=yy+4;
-	}
-
-} 
-void gputsx4c (int   x, int   y,int b,int g,int r,char *c){
-	 int   ii=0;
-	 int   xx=x;
-	 int   yy=y;
-	while(c[ii]!=0){
-		gputcx4c(xx,yy,b,g,r,c[ii]);
-		xx=xx+38;
-		ii++;
-	}
-}
-void polygon(int *poly,int count,int b,int g,int r){
+void polygon(SDL_Surface *surfaces,int *poly,int count,char b,char g,char r){
     int n=0;
     if (count>4){
         int x1=poly[count-2];
         int y1=poly[count-1];
         int x2=poly[0];
         int y2=poly[1];
-        line(x1,y1,x2,y2,b,g,r);
-        for(n=0;n<count-2;n=n+2)line(poly[n+0],poly[n+1],poly[n+2],poly[n+3],b,g,r);
+        line(surfaces,x1,y1,x2,y2,b,g,r);
+        for(n=0;n<count-2;n=n+2)line(surfaces,poly[n+0],poly[n+1],poly[n+2],poly[n+3],b,g,r);
     }
 
 }
-
-
