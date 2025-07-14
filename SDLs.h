@@ -5441,3 +5441,234 @@ void gputs (int   x, int   y,int b,int g,int r,char *c){
 		ii++;
 	}
 }
+void gputcx2 (int   x, int   y,int b,int g,int r,char c){
+	char bits;
+	char bit;
+	 int   scrolls;
+	 int   iii=0;
+	 int   ii=0;
+	 int   xx=x;
+	 int   yy=y;
+	 int   aa=0;
+	aa=c*8;
+	for (ii=0;ii<8;ii++){
+		scrolls=128;
+		bits=font8x8[aa];
+		for (iii=0;iii<8;iii++){
+			if ((bits & scrolls)!=0){
+				box(xx,yy,2,2,b,g,r);
+			}
+			xx=xx+2;
+			scrolls=scrolls/2;
+		}
+		xx=x;
+		aa++;
+		yy=yy+2;
+	}
+
+} 
+void gputsx2 (int   x, int   y,int b,int g,int r,char *c){
+	 int   ii=0;
+	 int   xx=x;
+	 int   yy=y;
+	while(c[ii]!=0){
+		gputcx2(xx,yy,b,g,r,c[ii]);
+		xx=xx+16;
+		ii++;
+	}
+}
+void gputcx3 (int   x, int   y,int b,int g,int r,char c){
+	char bits;
+	char bit;
+	 int   scrolls;
+	 int   iii=0;
+	 int   ii=0;
+	 int   xx=x;
+	 int   yy=y;
+	 int   aa=0;
+	aa=c*8;
+	for (ii=0;ii<8;ii++){
+		scrolls=128;
+		bits=font8x8[aa];
+		for (iii=0;iii<8;iii++){
+			if ((bits & scrolls)!=0){
+				box(xx,yy,3,3,b,g,r);
+			}
+			xx=xx+3;
+			scrolls=scrolls/2;
+		}
+		xx=x;
+		aa++;
+		yy=yy+3;
+	}
+
+} 
+void gputsx3 (int   x, int   y,int b,int g,int r,char *c){
+	 int   ii=0;
+	 int   xx=x;
+	 int   yy=y;
+	while(c[ii]!=0){
+		gputcx3(xx,yy,b,g,r,c[ii]);
+		xx=xx+24;
+		ii++;
+	}
+}
+void gputcx4 (int   x, int   y,int b,int g,int r,char c){
+	char bits;
+	char bit;
+	 int   scrolls;
+	 int   iii=0;
+	 int   ii=0;
+	 int   xx=x;
+	 int   yy=y;
+	 int   aa=0;
+	aa=c*8;
+	for (ii=0;ii<8;ii++){
+		scrolls=128;
+		bits=font8x8[aa];
+		for (iii=0;iii<8;iii++){
+			if ((bits & scrolls)!=0){
+				box(xx,yy,4,4,b,g,r);
+			}
+			xx=xx+4;
+			scrolls=scrolls/2;
+		}
+		xx=x;
+		aa++;
+		yy=yy+4;
+	}
+
+} 
+void gputsx4 (int   x, int   y,int b,int g,int r,char *c){
+	 int   ii=0;
+	 int   xx=x;
+	 int   yy=y;
+	while(c[ii]!=0){
+		gputcx4(xx,yy,b,g,r,c[ii]);
+		xx=xx+32;
+		ii++;
+	}
+}
+void gputcx4p (int   x, int   y,int b,int g,int r,char c){
+	char bits;
+	char bit;
+	 int   scrolls;
+	 int   iii=0;
+	 int   ii=0;
+	 int   xx=x;
+	 int   yy=y;
+	 int   aa=0;
+	aa=c*8;
+	for (ii=0;ii<8;ii++){
+		scrolls=128;
+		bits=font8x8[aa];
+		for (iii=0;iii<8;iii++){
+			if ((bits & scrolls)!=0){
+				box(xx,yy,3,3,b,g,r);
+			}
+			xx=xx+4;
+			scrolls=scrolls/2;
+		}
+		xx=x;
+		aa++;
+		yy=yy+4;
+	}
+
+} 
+void gputsx4p (int   x, int   y,int b,int g,int r,char *c){
+	 int   ii=0;
+	 int   xx=x;
+	 int   yy=y;
+	while(c[ii]!=0){
+		gputcx4p(xx,yy,b,g,r,c[ii]);
+		xx=xx+32;
+		ii++;
+	}
+}
+void gputcx4l (int   x, int   y,int b,int g,int r,char c){
+	char bits;
+	char bit;
+	 int   scrolls;
+	 int   iii=0;
+	 int   ii=0;
+	 int   xx=x;
+	 int   yy=y;
+	 int   aa=0;
+	aa=c*8;
+	for (ii=0;ii<8;ii++){
+		scrolls=128;
+		bits=font8x8[aa];
+		for (iii=0;iii<8;iii++){
+			if ((bits & scrolls)!=0){
+				box(xx,yy,4,2,b,g,r);
+			}
+			xx=xx+4;
+			scrolls=scrolls/2;
+		}
+		xx=x;
+		aa++;
+		yy=yy+4;
+	}
+
+} 
+void gputsx4l (int   x, int   y,int b,int g,int r,char *c){
+	 int   ii=0;
+	 int   xx=x;
+	 int   yy=y;
+	while(c[ii]!=0){
+		gputcx4l(xx,yy,b,g,r,c[ii]);
+		xx=xx+32;
+		ii++;
+	}
+}
+
+void gputcx4c (int   x, int   y,int b,int g,int r,char c){
+	char bits;
+	char bit;
+	 int   scrolls;
+	 int   iii=0;
+	 int   ii=0;
+	 int   xx=x;
+	 int   yy=y;
+	 int   aa=0;
+	aa=c*8;
+	for (ii=0;ii<8;ii++){
+		scrolls=128;
+		bits=font8x8[aa];
+		for (iii=0;iii<8;iii++){
+			if ((bits & scrolls)!=0){
+				ball(xx,yy,2,b,g,r);
+			}
+			xx=xx+4;
+			scrolls=scrolls/2;
+		}
+		xx=x;
+		aa++;
+		yy=yy+4;
+	}
+
+} 
+void gputsx4c (int   x, int   y,int b,int g,int r,char *c){
+	 int   ii=0;
+	 int   xx=x;
+	 int   yy=y;
+	while(c[ii]!=0){
+		gputcx4c(xx,yy,b,g,r,c[ii]);
+		xx=xx+38;
+		ii++;
+	}
+}
+void polygon(int *poly,int count,int b,int g,int r){
+    int n=0;
+    if (count>4){
+        int x1=poly[count-2];
+        int y1=poly[count-1];
+        int x2=poly[0];
+        int y2=poly[1];
+        line(x1,y1,x2,y2,b,g,r);
+        for(n=0;n<count-2;n=n+2)line(poly[n+0],poly[n+1],poly[n+2],poly[n+3],b,g,r);
+    }
+
+}
+
+
